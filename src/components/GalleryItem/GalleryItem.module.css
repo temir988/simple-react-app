@@ -1,0 +1,16 @@
+.item {
+  object-fit: cover;
+  max-width: 300px;
+  margin: 0 auto;
+  transition: opacity 0.3s;
+  cursor: pointer;
+}
+
+.item:hover {
+  opacity: 0.75;
+}
+
+.img {
+  display: block;
+  max-width: 100%;
+}

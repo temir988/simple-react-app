@@ -4,20 +4,132 @@
     right: 0;
     bottom: 0;
     left: 0;
+    display: flex;
     background-color: rgba(0,0,0,.7);
     align-items: center;
     justify-content: center;
-    display: none;
+    /*display: none;*/
+    opacity: 0;
+    transition: opacity .3s;
+    pointer-events: none;
 }
 
 .active {
-    display: flex;
+    /*display: flex;*/
+    opacity: 1;
+    pointer-events: visible;
 }
 
 .modal {
+    padding: 30px;
+    position: relative;
+    z-index: 2;
     min-width: 620px;
     min-height: 420px;
     background-color: #ffffff;
-    text-align: center;
+    display: grid;
+    grid-template-areas: "photo comments"
+                         "form  comments";
+    grid-template-columns: 330px auto;
+    grid-auto-rows: minmax(min-content, max-content) 1fr;
+    grid-column-gap: 14px;
+    grid-row-gap: 30px;
 }
 
+.overlay {
+    position: absolute;
+    text-align: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.overlay.active {
+    pointer-events: visible;
+}
+
+.close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+    transition: transform .3s;
+    border-radius: 4px;
+}
+
+.close:hover {
+    transform: scale(1.2);
+}
+
+.close svg {
+    display: block;
+}
+
+.photo {
+    grid-area: photo;
+}
+.photo img {
+    display: block;
+    max-width: 100%;
+}
+.form {
+    grid-area: form;
+}
+
+.control {
+    display: block;
+    width: 100%;
+    padding: 8px 12px;
+    background: #fff;
+    border: 1px solid var(--gray);
+    border-radius: 3px;
+    margin-bottom: 20px;
+}
+.control::-webkit-input-placeholder {
+    color: var(--gray);
+}
+.control::-moz-placeholder {
+    color: var(--gray);
+}
+.submit {
+    margin-bottom: 0;
+    background-color: #4997D0;
+    border-color: #4997D0;
+    color: #fff;
+    transition: background-color .3s;
+    cursor: pointer;
+}
+.submit:hover {
+    background-color: #226192FF;
+}
+
+.comments {
+    grid-area: comments;
+    padding: 0;
+    margin: 0;
+}
+
+.comment {
+    list-style: none;
+    margin-bottom: 20px;
+}
+
+.comment:last-of-type {
+    margin-bottom: 0;
+}
+
+.date {
+    color: #999;
+    margin-bottom: 5px;
+    font-weight: normal;
+}
+
+.commentText {
+    font-weight: normal;
+}

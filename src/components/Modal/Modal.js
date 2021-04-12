@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Loader from "../Loader/Loader";
 import { ReactComponent as CloseIcon } from "./close.svg";
 import styles from "./Modal.module.css";
+import ModalComment from "../ModalComment/ModalComment";
 
 function Modal({ isOpen, itemId, handleModalClose }) {
   const [itemData, setItemData] = useState(null);
@@ -124,12 +125,7 @@ function Modal({ isOpen, itemId, handleModalClose }) {
               <ul className={styles.comments}>
                 {itemData && itemData.comments.length !== 0 ? (
                   itemData.comments.map(({ id, text, date }) => (
-                    <li key={id} className={styles.comment}>
-                      <div className={styles.date}>
-                        {new Date(date).toLocaleDateString("ru-RU")}
-                      </div>
-                      <div className={styles.commentText}>{text}</div>
-                    </li>
+                    <ModalComment key={id} date={date} text={text} />
                   ))
                 ) : (
                   <li className={styles.comment}>Комментариев пока нет</li>

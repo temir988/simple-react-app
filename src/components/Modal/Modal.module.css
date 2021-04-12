@@ -150,20 +150,6 @@
   margin-bottom: 20px;
 }
 
-.comment:last-of-type {
-  margin-bottom: 0;
-}
-
-.date {
-  color: #999;
-  margin-bottom: 5px;
-  font-weight: normal;
-}
-
-.commentText {
-  font-weight: normal;
-}
-
 .loader {
   position: absolute;
   top: 0;

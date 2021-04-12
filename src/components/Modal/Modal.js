@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-
-import styles from "./Modal.module.css";
+import Loader from "../Loader/Loader";
 import { ReactComponent as CloseIcon } from "./close.svg";
+import styles from "./Modal.module.css";
 
 function Modal({ isOpen, itemId, handleModalClose }) {
   const [itemData, setItemData] = useState(null);
@@ -24,6 +24,7 @@ function Modal({ isOpen, itemId, handleModalClose }) {
     fetchData();
 
     return () => {
+      setIsLoading(true);
       setItemData(null);
     };
   }, [itemId]);
@@ -56,14 +57,14 @@ function Modal({ isOpen, itemId, handleModalClose }) {
 
     if (!response.ok) throw new Error("Network error");
 
-    const newCommnet = {
+    const newComment = {
       id: Math.random() * Date.now(),
       text: comment,
       date: Date.now(),
     };
     setItemData((state) => ({
       ...state,
-      comments: [newCommnet, ...state.comments],
+      comments: [newComment, ...state.comments],
     }));
 
     setName("");
@@ -83,12 +84,14 @@ function Modal({ isOpen, itemId, handleModalClose }) {
           </button>
 
           {isLoading ? (
-            <div>Loading...</div>
+            <div className={styles.loader}>
+              <Loader />
+            </div>
           ) : (
             <>
               <div className={styles.photo}>
                 {itemData && (
-                  <img src={itemData.url} width="330" height="220" />
+                  <img src={itemData.url} width="330" height="220" alt="" />
                 )}
               </div>
               <div className={styles.form}>

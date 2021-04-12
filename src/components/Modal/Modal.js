@@ -82,55 +82,58 @@ function Modal({ isOpen, itemId, handleModalClose }) {
             <CloseIcon />
           </button>
 
-          {isLoading && <div>Loading...</div>}
-          <div className={styles.photo}>
-            {itemData ? (
-              <img src={itemData.url} width="330" height="220" alt="" />
-            ) : (
-              <div className={styles.placeholder} />
-            )}
-          </div>
-          <div className={styles.form}>
-            <form onSubmit={submitHandler}>
-              <input
-                type="text"
-                className={styles.control}
-                placeholder="Ваше имя"
-                onInput={inputNameHandler}
-                value={name}
-                required
-              />
-              <input
-                type="text"
-                className={styles.control}
-                placeholder="Ваш комментарий"
-                onInput={inputCommentHandler}
-                value={comment}
-                required
-              />
-              <button
-                type="submit"
-                disabled={name === "" || comment === ""}
-                className={`${styles.control} ${styles.submit}`}
-              >
-                Оставить комментарий
-              </button>
-            </form>
-          </div>
-          <ul className={styles.comments}>
-            {itemData && itemData.comments.length !== 0 ? (
-              itemData.comments.map(({ id, text, date }) => (
-                <li key={id} className={styles.comment}>
-                  <div className={styles.date}>
-                    {new Date(date).toLocaleDateString("ru-RU")}
-                  </div>
-                  <div className={styles.commentText}>{text}</div>
-                </li>
-              ))
-            ) : (
-              <li className={styles.comment}>Комментариев пока нет</li>
-            )}
-          </ul>
+          {isLoading ? (
+            <div>Loading...</div>
+          ) : (
+            <>
+              <div className={styles.photo}>
+                {itemData && (
+                  <img src={itemData.url} width="330" height="220" />
+                )}
+              </div>
+              <div className={styles.form}>
+                <form onSubmit={submitHandler}>
+                  <input
+                    type="text"
+                    className={styles.control}
+                    placeholder="Ваше имя"
+                    onInput={inputNameHandler}
+                    value={name}
+                    required
+                  />
+                  <input
+                    type="text"
+                    className={styles.control}
+                    placeholder="Ваш комментарий"
+                    onInput={inputCommentHandler}
+                    value={comment}
+                    required
+                  />
+                  <button
+                    type="submit"
+                    disabled={name === "" || comment === ""}
+                    className={`${styles.control} ${styles.submit}`}
+                  >
+                    Оставить комментарий
+                  </button>
+                </form>
+              </div>
+              <ul className={styles.comments}>
+                {itemData && itemData.comments.length !== 0 ? (
+                  itemData.comments.map(({ id, text, date }) => (
+                    <li key={id} className={styles.comment}>
+                      <div className={styles.date}>
+                        {new Date(date).toLocaleDateString("ru-RU")}
+                      </div>
+                      <div className={styles.commentText}>{text}</div>
+                    </li>
+                  ))
+                ) : (
+                  <li className={styles.comment}>Комментариев пока нет</li>
+                )}
+              </ul>
+            </>
+          )}
         </div>
       </div>
     </>

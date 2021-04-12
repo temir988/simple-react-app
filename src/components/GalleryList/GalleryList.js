@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import GalleryItem from "../GalleryItem/GalleryItem";
 import Modal from "../Modal/Modal";
+import Loader from "../Loader/Loader";
 import styles from "./GalleryList.module.css";
 
 function GalleryList() {
   const [photos, setPhotos] = useState([]);
   const [activeItem, setActiveItem] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -15,6 +17,7 @@ function GalleryList() {
       );
       const data = await response.json();
       setPhotos(data);
+      setIsLoading(false);
     };
 
     fetchData();
@@ -31,11 +34,21 @@ function GalleryList() {
 
   return (
     <>
-      <ul className={styles.list}>
-        {photos.map((photo) => (
-          <GalleryItem key={photo.id} photo={photo} handleClick={handleClick} />
-        ))}
-      </ul>
+      {isLoading ? (
+        <div className={styles.loader}>
+          <Loader />
+        </div>
+      ) : (
+        <ul className={styles.list}>
+          {photos.map((photo) => (
+            <GalleryItem
+              key={photo.id}
+              photo={photo}
+              handleClick={handleClick}
+            />
+          ))}
+        </ul>
+      )}
       <Modal
         isOpen={modalIsOpen}
         itemId={activeItem}

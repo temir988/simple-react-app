@@ -1,60 +1,13 @@
-import { useState, useEffect } from "react";
 import GalleryItem from "../GalleryItem/GalleryItem";
-import Modal from "../Modal/Modal";
-import Loader from "../Loader/Loader";
 import styles from "./GalleryList.module.css";
 
-function GalleryList() {
-  const [photos, setPhotos] = useState([]);
-  const [activeItem, setActiveItem] = useState(null);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch(
-        "https://boiling-refuge-66454.herokuapp.com/images"
-      );
-      const data = await response.json();
-      setPhotos(data);
-      setIsLoading(false);
-    };
-
-    fetchData();
-  }, []);
-
-  const handleClick = (id) => {
-    setActiveItem(id);
-    setModalIsOpen(true);
-  };
-
-  const handleModalClose = () => {
-    setModalIsOpen(false);
-  };
-
+function GalleryList({ photos, handleClick }) {
   return (
-    <>
-      {isLoading ? (
-        <div className={styles.loader}>
-          <Loader />
-        </div>
-      ) : (
-        <ul className={styles.list}>
-          {photos.map((photo) => (
-            <GalleryItem
-              key={photo.id}
-              photo={photo}
-              handleClick={handleClick}
-            />
-          ))}
-        </ul>
-      )}
-      <Modal
-        isOpen={modalIsOpen}
-        itemId={activeItem}
-        handleModalClose={handleModalClose}
-      />
-    </>
+    <ul className={styles.list}>
+      {photos.map((photo) => (
+        <GalleryItem key={photo.id} photo={photo} handleClick={handleClick} />
+      ))}
+    </ul>
   );
 }
 

@@ -40,3 +40,9 @@
   text-align: center;
   padding: 20px;
 }
+
+
+.loader {
+  display: flex;
+  justify-content: center;
+}

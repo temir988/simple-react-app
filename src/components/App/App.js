@@ -16,16 +16,16 @@ function App() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "https://boiling-refuge-66454.herokuapp.com/imagesdsdfsd"
+          "https://boiling-refuge-66454.herokuapp.com/imagesasd"
         );
         if (response.ok) {
           const data = await response.json();
           setPhotos(data);
         } else {
-          throw new Error("bad request");
+          setHasError(true);
         }
       } catch (e) {
-        console.log(e);
+        console.error(e);
         setHasError(true);
       } finally {
         setIsLoading(false);
@@ -48,8 +48,9 @@ function App() {
     <div className="App">
       <header className="header">TEST APP</header>
       <main className="main">
-        {hasError && <ErrorIndicator />}
-        {isLoading ? (
+        {hasError ? (
+          <ErrorIndicator />
+        ) : isLoading ? (
           <div className="loader">
             <Loader />
           </div>

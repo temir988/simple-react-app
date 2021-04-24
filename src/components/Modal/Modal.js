@@ -1,32 +1,46 @@
 import { useState, useEffect } from "react";
-import Loader from "../Loader/Loader";
 import { ReactComponent as CloseIcon } from "./close.svg";
-import styles from "./Modal.module.css";
+import Loader from "../Loader/Loader";
 import ModalComment from "../ModalComment/ModalComment";
+import ErrorIndicator from "../ErrorIndicator/ErrorIndicator";
+import styles from "./Modal.module.css";
 
 function Modal({ isOpen, itemId, handleModalClose }) {
   const [itemData, setItemData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [name, setName] = useState("");
   const [comment, setComment] = useState("");
+  const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
     if (!itemId) return;
 
+    setIsLoading(true);
     const fetchData = async () => {
-      const response = await fetch(
-        `https://boiling-refuge-66454.herokuapp.com/images/${itemId}`
-      );
-      const data = await response.json();
-      setItemData(data);
-      setIsLoading(false);
+      try {
+        const response = await fetch(
+          `https://boiling-refuge-66454.herokuapp.com/images/${itemId}`
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          setItemData(data);
+        } else {
+          setHasError(true);
+        }
+      } catch (e) {
+        console.error(e);
+        setHasError(true);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     fetchData();
 
     return () => {
-      setIsLoading(true);
       setItemData(null);
+      setHasError(false);
     };
   }, [itemId]);
 
@@ -84,7 +98,9 @@ function Modal({ isOpen, itemId, handleModalClose }) {
             <CloseIcon />
           </button>
 
-          {isLoading ? (
+          {hasError ? (
+            <ErrorIndicator modClass={styles.error} />
+          ) : isLoading ? (
             <div className={styles.loader}>
               <Loader />
             </div>

@@ -16,7 +16,7 @@ function App() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "https://boiling-refuge-66454.herokuapp.com/imagesasd"
+          "https://boiling-refuge-66454.herokuapp.com/images"
         );
         if (response.ok) {
           const data = await response.json();

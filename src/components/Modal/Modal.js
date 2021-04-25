@@ -4,12 +4,11 @@ import Loader from "../Loader/Loader";
 import ModalComment from "../ModalComment/ModalComment";
 import ErrorIndicator from "../ErrorIndicator/ErrorIndicator";
 import styles from "./Modal.module.css";
+import ModalForm from "../ModalForm/ModalForm";
 
 function Modal({ isOpen, itemId, handleModalClose }) {
   const [itemData, setItemData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [name, setName] = useState("");
-  const [comment, setComment] = useState("");
   const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
@@ -44,46 +43,11 @@ function Modal({ isOpen, itemId, handleModalClose }) {
     };
   }, [itemId]);
 
-  const inputNameHandler = (event) => {
-    setName(event.target.value);
-  };
-
-  const inputCommentHandler = (event) => {
-    setComment(event.target.value);
-  };
-
-  const submitHandler = async (event) => {
-    event.preventDefault();
-    const data = {
-      name,
-      comment,
-    };
-
-    const response = await fetch(
-      `https://boiling-refuge-66454.herokuapp.com/images/${itemId}/comments`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      }
-    );
-
-    if (!response.ok) throw new Error("Network error");
-
-    const newComment = {
-      id: Math.random() * Date.now(),
-      text: comment,
-      date: Date.now(),
-    };
+  const addComment = (newComment) => {
     setItemData((state) => ({
       ...state,
       comments: [newComment, ...state.comments],
     }));
-
-    setName("");
-    setComment("");
   };
 
   return (
@@ -111,33 +75,9 @@ function Modal({ isOpen, itemId, handleModalClose }) {
                   <img src={itemData.url} width="330" height="220" alt="" />
                 )}
               </div>
-              <div className={styles.form}>
-                <form onSubmit={submitHandler}>
-                  <input
-                    type="text"
-                    className={styles.control}
-                    placeholder="Ваше имя"
-                    onInput={inputNameHandler}
-                    value={name}
-                    required
-                  />
-                  <input
-                    type="text"
-                    className={styles.control}
-                    placeholder="Ваш комментарий"
-                    onInput={inputCommentHandler}
-                    value={comment}
-                    required
-                  />
-                  <button
-                    type="submit"
-                    disabled={name === "" || comment === ""}
-                    className={`${styles.control} ${styles.submit}`}
-                  >
-                    Оставить комментарий
-                  </button>
-                </form>
-              </div>
+
+              <ModalForm itemId={itemId} addComment={addComment} />
+
               <ul className={styles.comments}>
                 {itemData && itemData.comments.length !== 0 ? (
                   itemData.comments.map(({ id, text, date }) => (

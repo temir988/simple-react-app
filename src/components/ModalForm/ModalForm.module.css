@@ -1,0 +1,44 @@
+.form {
+  position: relative;
+  grid-area: form;
+}
+
+.error {
+  position: absolute;
+  bottom: 102%;
+  color: tomato;
+}
+
+.control {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  background: #fff;
+  border: 1px solid var(--gray);
+  border-radius: 3px;
+  margin-bottom: 20px;
+}
+.control::-webkit-input-placeholder {
+  color: var(--gray);
+}
+.control::-moz-placeholder {
+  color: var(--gray);
+}
+.submit {
+  margin-bottom: 0;
+  background-color: #4997d0;
+  border-color: #4997d0;
+  color: #fff;
+  transition: background-color 0.3s;
+  cursor: pointer;
+}
+.submit:hover {
+  background-color: #226192ff;
+}
+.submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.submit:disabled:hover {
+  background-color: #4997d0;
+}

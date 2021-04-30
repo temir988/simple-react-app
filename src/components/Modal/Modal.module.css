@@ -1,5 +1,5 @@
 .wrapper {
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
@@ -8,14 +8,12 @@
   background-color: rgba(0, 0, 0, 0.7);
   align-items: center;
   justify-content: center;
-  /*display: none;*/
   opacity: 0;
   transition: opacity 0.3s;
   pointer-events: none;
 }
 
 .active {
-  /*display: flex;*/
   opacity: 1;
   pointer-events: visible;
 }
@@ -39,7 +37,6 @@
 
 .overlay {
   position: absolute;
-  text-align: 0;
   top: 0;
   left: 0;
   right: 0;
@@ -113,6 +110,10 @@
   margin-bottom: 20px;
 }
 
+.comment:last-of-type {
+  margin-bottom: 0;
+}
+
 .loader {
   position: absolute;
   top: 0;
@@ -130,4 +131,30 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+@media screen and (max-width: 640px) {
+  .modal {
+    min-width: 320px;
+    width: calc(100% - 30px);
+    grid-template-areas:
+    "photo"
+    "comments"
+    "form";
+    grid-template-columns: auto;
+  }
+
+  .photo {
+    min-height: 170px;
+  }
+
+  .close {
+    top: 5px;
+    right: 5px;
+  }
+
+  .comments {
+    max-height: 160px;
+    overflow: auto;
+  }
 }

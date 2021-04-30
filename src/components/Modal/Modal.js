@@ -50,13 +50,18 @@ function Modal({ isOpen, itemId, handleModalClose }) {
     }));
   };
 
+  const handleWrapperClick = (event) => {
+    if (event.target.classList.contains(styles.wrapper)) {
+      handleModalClose();
+    }
+  };
+
   return (
     <>
       <div
-        className={`${styles.overlay} ${isOpen ? styles.active : ""}`}
-        onClick={handleModalClose}
-      />
-      <div className={`${styles.wrapper} ${isOpen ? styles.active : ""}`}>
+        className={`${styles.wrapper} ${isOpen ? styles.active : ""}`}
+        onClick={handleWrapperClick}
+      >
         <div className={styles.modal}>
           <button className={styles.close} onClick={handleModalClose}>
             <CloseIcon />
@@ -71,9 +76,7 @@ function Modal({ isOpen, itemId, handleModalClose }) {
           ) : (
             <>
               <div className={styles.photo}>
-                {itemData && (
-                  <img src={itemData.url} width="330" height="220" alt="" />
-                )}
+                {itemData && <img src={itemData.url} alt="placeholder text" />}
               </div>
 
               <ModalForm itemId={itemId} addComment={addComment} />

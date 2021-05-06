@@ -35,6 +35,16 @@ function App() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const handleEscKey = (event) => {
+      if (event.code === "Escape" && modalIsOpen) {
+        setModalIsOpen(false);
+      }
+    };
+    document.addEventListener("keydown", handleEscKey);
+    return () => document.removeEventListener("keydown", handleEscKey);
+  }, [modalIsOpen]);
+
   const handleClick = (id) => {
     setActiveItem(id);
     setModalIsOpen(true);
